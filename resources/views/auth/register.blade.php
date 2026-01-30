@@ -1,66 +1,73 @@
-<x-guest-layout>
-    <form method="POST" action="{{ route('register') }}">
-        @csrf
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inscription - Talent</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-50 font-sans">
 
-        <!-- Name -->
-        <div>
-            <x-input-label for="name" :value="__('Name')" />
-            <x-text-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="name" />
-            <x-input-error :messages="$errors->get('name')" class="mt-2" />
+    {{-- Main Section --}}
+    <section class="flex flex-col md:flex-row items-center justify-center min-h-screen px-6 md:px-20">
+        
+        {{-- Formulaire --}}
+        <div class="bg-white shadow-md rounded-lg p-8 w-full max-w-md md:mr-12">
+            <h2 class="text-2xl font-bold mb-6 text-red-600 text-center">Inscription</h2>
+
+            <form method="POST" action="{{ route('register') }}" class="space-y-4">
+                @csrf
+
+                <!-- Name -->
+                <div>
+                    <label for="name" class="block font-medium text-gray-700 mb-1">Nom</label>
+                    <input id="name" type="text" name="name" :value="old('name')" required autofocus
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600">
+                    <x-input-error :messages="$errors->get('name')" class="mt-2" />
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block font-medium text-gray-700 mb-1">Email</label>
+                    <input id="email" type="email" name="email" :value="old('email')" required
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600">
+                    <x-input-error :messages="$errors->get('email')" class="mt-2" />
+                </div>
+
+                <!-- Password -->
+                <div>
+                    <label for="password" class="block font-medium text-gray-700 mb-1">Mot de passe</label>
+                    <input id="password" type="password" name="password" required
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600">
+                    <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                </div>
+
+                <!-- Confirm Password -->
+                <div>
+                    <label for="password_confirmation" class="block font-medium text-gray-700 mb-1">Confirmer le mot de passe</label>
+                    <input id="password_confirmation" type="password" name="password_confirmation" required
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600">
+                    <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                </div>
+
+                <!-- Role -->
+                <div>
+                    <label for="role" class="block font-medium text-gray-700 mb-1">Vous êtes :</label>
+                    <select id="role" name="role" required
+                        class="w-full border border-gray-300 rounded px-3 py-2 focus:outline-none focus:ring-2 focus:ring-red-600">
+                        <option value="chercheur" {{ old('role') == 'chercheur' ? 'selected' : '' }}>Chercheur d'emploi</option>
+                        <option value="recruteur" {{ old('role') == 'recruteur' ? 'selected' : '' }}>Recruteur</option>
+                    </select>
+                </div>
+
+                {{-- Buttons --}}
+                <div class="flex items-center justify-between mt-4">
+                    <a href="{{ route('login') }}" class="text-sm text-gray-600 hover:text-red-600 underline">Déjà inscrit ?</a>
+                    <button type="submit" class="bg-red-600 text-white px-6 py-2 rounded hover:bg-red-700 transition">S’inscrire</button>
+                </div>
+            </form>
         </div>
+    </section>
 
-        <!-- Email Address -->
-        <div class="mt-4">
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autocomplete="username" />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
-        </div>
-
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
-
-            <x-text-input id="password" class="block mt-1 w-full"
-                            type="password"
-                            name="password"
-                            required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password')" class="mt-2" />
-        </div>
-
-        <!-- Confirm Password -->
-        <div class="mt-4">
-            <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
-
-            <x-text-input id="password_confirmation" class="block mt-1 w-full"
-                            type="password"
-                            name="password_confirmation" required autocomplete="new-password" />
-
-            <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
-        </div>
-
-        <div class="mt-4">
-        <label for="role" class="block text-sm font-medium text-gray-700">Vous êtes :</label>
-        <select id="role" name="role" required
-            class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm">
-            <option value="chercheur">Chercheur d'emploi</option>
-            <option value="recruteur">Recruteur</option>
-            
-            <!-- <option value="chercheur" {{ old('role') == 'chercheur' ? 'selected' : '' }}>Chercheur d'emploi</option>
-            
-            <option value="recruteur" {{ old('role') == 'recruteur' ? 'selected' : '' }}>Recruteur</option> -->
-        </select>
-        </div>
-
-
-        <div class="flex items-center justify-end mt-4">
-            <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
-                {{ __('Already registered?') }}
-            </a>
-
-            <x-primary-button class="ms-4">
-                {{ __('Register') }}
-            </x-primary-button>
-        </div>
-    </form>
-</x-guest-layout>
+</body>
+</html>
