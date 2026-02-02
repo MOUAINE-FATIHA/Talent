@@ -21,7 +21,6 @@ class RegisteredUserController extends Controller
     {
         return view('auth.register');
     }
-
     /**
      * Handle an incoming registration request.
      *
