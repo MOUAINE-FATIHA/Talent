@@ -1,45 +1,48 @@
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Résultats de recherche pour "{{ $q }}"
-        </h2>
-    </x-slot>
+@extends('layouts.app')
 
-    <div class="py-12">
-        <div class="max-w-4xl mx-auto">
+@section('content')
+<div class="max-w-6xl mx-auto px-6 py-12">
 
-            @if($users->isEmpty())
-                <div class="bg-yellow-100 text-yellow-800 p-4 rounded">
-                    Aucun utilisateur trouvé.
+    <h2 class="text-3xl font-bold mb-6">Recherche de profils</h2>
+
+    <!-- FORMULAIRE -->
+    <form method="GET" action="{{ route('search') }}"
+          class="bg-white shadow rounded p-6 grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
+
+        <input type="text" name="name" placeholder="Nom"
+               value="{{ request('name') }}"
+               class="border rounded px-3 py-2">
+
+        <input type="text" name="specialite" placeholder="Spécialité"
+               value="{{ request('specialite') }}"
+               class="border rounded px-3 py-2">
+
+        <button class="bg-red-600 text-white rounded px-4 py-2 hover:bg-red-700">
+            Rechercher
+        </button>
+    </form>
+
+    <!-- RESULTATS -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        @forelse($users as $user)
+            <div class="bg-white shadow rounded p-4 flex gap-4 items-center">
+                <img src="{{ $user->photo ? asset('storage/'.$user->photo) : 'https://via.placeholder.com/80' }}"
+                     class="w-20 h-20 rounded-full object-cover">
+
+                <div>
+                    <h3 class="text-lg font-semibold">{{ $user->name }}</h3>
+                    <p class="text-gray-600">{{ $user->specialite }}</p>
+
+                    <a href="{{ route('profile.show', $user) }}"
+                       class="text-red-600 text-sm hover:underline">
+                        Voir profil
+                    </a>
                 </div>
-            @else
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    @foreach($users as $user)
-                        <div class="bg-white shadow p-4 rounded flex items-center space-x-4">
-                            
-                            {{-- Photo --}}
-                            @if($user->photo)
-                                <img src="{{ asset('storage/'.$user->photo) }}" class="w-16 h-16 rounded-full">
-                            @else
-                                <div class="w-16 h-16 bg-gray-300 rounded-full flex items-center justify-center">
-                                    No Photo
-                                </div>
-                            @endif
-
-                            {{-- Info --}}
-                            <div>
-                                <a href="{{ route('profile.show', $user->id) }}" class="text-lg font-bold text-blue-600 hover:underline">
-                                    {{ $user->name }}
-                                </a>
-                                <p class="text-gray-600">
-                                    {{ $user->specialite ?? 'Spécialité non renseignée' }}
-                                </p>
-                            </div>
-                        </div>
-                    @endforeach
-                </div>
-            @endif
-
-        </div>
+            </div>
+        @empty
+            <p class="text-gray-500">Aucun utilisateur trouvé.</p>
+        @endforelse
     </div>
-</x-app-layout>
+
+</div>
+@endsection
