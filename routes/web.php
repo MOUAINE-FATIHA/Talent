@@ -38,6 +38,6 @@ Route::middleware('auth')->group(function () {
     Route::post('/cv', [CvController::class, 'store'])->name('cv.store');
 });
 
-Route::get('/offres', [JobOfferController::class, 'inex'])->name('job.offers');
+Route::get('/offres',[JobOfferController::class,'index'])->name('job.offers');
 
 require __DIR__.'/auth.php';
