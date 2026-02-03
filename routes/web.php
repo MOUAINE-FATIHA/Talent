@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SearchController; 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CvController;
 
 Route::get('/', function () {
     return view('welcome');
@@ -27,7 +28,16 @@ Route::middleware('auth')->group(function () {
 // profile
 Route::get('/profile/{id}', [ProfileController::class,'show'])->name('profile.show');
 
-Route::get('/search', [SearchController::class,'search'])->name('search');
+Route::get('/search', [SearchController::class,'index'])->name('search');
 
+//
+
+Route::middleware('auth')->group(function () {
+    Route::get('/cv', [CvController::class, 'index'])->name('cv.show');
+    Route::get('/cv/create', [CvController::class, 'create'])->name('cv.create');
+    Route::post('/cv', [CvController::class, 'store'])->name('cv.store');
+});
+
+Route::get('/offres', [JobOfferController::class, 'inex'])->name('job.offers');
 
 require __DIR__.'/auth.php';
