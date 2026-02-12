@@ -1,14 +1,26 @@
 <?php
-class JobOffer extends Model{
+namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
+class JobOffer extends Model
+{
     protected $fillable = [
         'titre',
         'description',
         'type_contrat',
         'entreprise',
         'image',
-        'recruiter_id'
+        'recruteur_id',
+        'closed',
     ];
-    public function recruiter(){
-        return $this->belongsTo(Recruiter::class);
+
+    protected $casts = [
+        'closed' => 'boolean',
+    ];
+
+    public function recruteur(){
+        return $this->belongsTo(Recruteur::class);
+    }
+    public function applications(){
+        return $this->hasMany(Application::class);
     }
 }

@@ -1,0 +1,14 @@
+<?php
+namespace App\Models;
+use Illuminate\Database\Eloquent\Model;
+class Competence extends Model{
+    public $timestamps = false;
+    
+    protected $fillable = [
+        'name',
+    ];
+    public function cvs()
+    {
+        return $this->belongsToMany(Cv::class, 'competence_cv');
+    }
+}
