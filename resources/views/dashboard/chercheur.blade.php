@@ -11,9 +11,13 @@
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">
                     Bienvenue, {{ Auth::user()->name }}!
                 </h3>
-                <p class="text-gray-600 text-lg">
-                    Vous êtes Chercheur d'emploi. Commencez à explorer les offres et candidats dès maintenant.
+                <p class="text-gray-600 text-lg mb-6">
+                    Vous êtes Chercheur d'emploi. Consultez les offres et postulez à celles qui vous correspondent.
                 </p>
+                <a href="{{ route('job.offers') }}"
+                   class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                    Voir les offres d'emploi
+                </a>
             </div>
         </div>
     </div>

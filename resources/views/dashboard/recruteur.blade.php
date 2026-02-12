@@ -11,9 +11,19 @@
                 <h3 class="text-xl font-semibold text-gray-800 mb-4">
                     Bienvenue, {{ Auth::user()->name }}!
                 </h3>
-                <p class="text-gray-600 text-lg">
-                    Vous êtes Recruteur. Commencez à publier vos offres et rechercher des candidats.
+                <p class="text-gray-600 text-lg mb-6">
+                    Vous êtes Recruteur. Créez des offres, gérez vos annonces et consultez les candidatures.
                 </p>
+                <div class="flex flex-wrap gap-4 justify-center">
+                    <a href="{{ route('job.my_offers') }}"
+                       class="inline-block bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                        Mes offres et candidatures
+                    </a>
+                    <a href="{{ route('job.create') }}"
+                       class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-6 rounded-lg transition">
+                        Créer une offre
+                    </a>
+                </div>
             </div>
         </div>
     </div>

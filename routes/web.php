@@ -53,6 +53,9 @@ Route::middleware(['auth', 'recruteur'])->group(function () {
     Route::get('/offres-create', [JobOfferController::class, 'create'])->name('job.create');
     Route::post('/offres', [JobOfferController::class, 'store'])->name('job.store');
     Route::get('/mes-offres', [JobOfferController::class, 'myOffers'])->name('job.my_offers');
+    Route::get('/offres/{jobOffer}/edit', [JobOfferController::class, 'edit'])->name('job.edit');
+    Route::put('/offres/{jobOffer}', [JobOfferController::class, 'update'])->name('job.update');
+    Route::delete('/offres/{jobOffer}', [JobOfferController::class, 'destroy'])->name('job.destroy');
     Route::post('/offres/{jobOffer}/toggle-close', [JobOfferController::class, 'toggleClose'])->name('job.toggle_close');
 });
 

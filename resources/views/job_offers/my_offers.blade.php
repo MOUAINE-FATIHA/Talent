@@ -4,16 +4,16 @@
             <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
                 {{ __('Mes offres d\'emploi') }}
             </h2>
-            <a href="{{ route('job.create') }}" 
+            <a href="{{ route('job.create') }}"
                class="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                Créer un offre
+                Créer une offre
             </a>
         </div>
     </x-slot>
 
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            
+
             @if(session('success'))
                 <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded">
                     {{ session('success') }}
@@ -25,8 +25,7 @@
                     @foreach($jobOffers as $offer)
                         <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                             <div class="p-6">
-                                
-                                <!-- Offer Header -->
+
                                 <div class="flex justify-between items-start mb-4">
                                     <div>
                                         <div class="flex items-center gap-3">
@@ -50,27 +49,39 @@
                                             Publiée le {{ $offer->created_at->format('d/m/Y') }}
                                         </p>
                                     </div>
-                                    <div class="flex gap-2">
-                                        <form method="POST" action="{{ route('job.toggle_close', $offer) }}">
+                                    <div class="flex flex-wrap gap-2 items-center">
+                                        <a href="{{ route('job.edit', $offer) }}"
+                                           class="text-sm px-3 py-1 rounded bg-blue-100 text-blue-700 hover:bg-blue-200 dark:bg-blue-900 dark:text-blue-200">
+                                            Modifier
+                                        </a>
+                                        <form method="POST" action="{{ route('job.toggle_close', $offer) }}" class="inline">
                                             @csrf
-                                            <button type="submit" 
+                                            <button type="submit"
                                                     class="text-sm px-3 py-1 rounded
-                                                    @if($offer->closed) 
+                                                    @if($offer->closed)
                                                         bg-green-100 text-green-700 hover:bg-green-200 dark:bg-green-900 dark:text-green-200
-                                                    @else 
-                                                        bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:text-red-200
+                                                    @else
+                                                        bg-orange-100 text-orange-700 hover:bg-orange-200 dark:bg-orange-900 dark:text-orange-200
                                                     @endif">
                                                 {{ $offer->closed ? 'Réouvrir' : 'Clôturer' }}
                                             </button>
                                         </form>
-                                        <a href="{{ route('job.show', $offer) }}" 
+                                        <form method="POST" action="{{ route('job.destroy', $offer) }}" class="inline"
+                                              onsubmit="return confirm('Supprimer cette offre ?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="text-sm px-3 py-1 rounded bg-red-100 text-red-700 hover:bg-red-200 dark:bg-red-900 dark:text-red-200">
+                                                Supprimer
+                                            </button>
+                                        </form>
+                                        <a href="{{ route('job.show', $offer) }}"
                                            class="text-blue-600 hover:text-blue-800 text-sm">
                                             Voir l'offre
                                         </a>
                                     </div>
                                 </div>
 
-                                <!-- Applications -->
                                 <div class="border-t dark:border-gray-700 pt-4">
                                     <h4 class="font-semibold text-lg mb-3 text-gray-900 dark:text-gray-100">
                                         Candidatures ({{ $offer->applications->count() }})
@@ -81,8 +92,8 @@
                                             @foreach($offer->applications as $application)
                                                 <div class="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg flex justify-between items-center">
                                                     <div class="flex items-center gap-4">
-                                                        <img src="{{ $application->user->photo ? asset('storage/' . $application->user->photo) : 'https://via.placeholder.com/50' }}" 
-                                                             class="w-12 h-12 rounded-full object-cover">
+                                                        <img src="{{ $application->user->photo ? asset('storage/' . $application->user->photo) : 'https://via.placeholder.com/50' }}"
+                                                             class="w-12 h-12 rounded-full object-cover" alt="">
                                                         <div>
                                                             <h5 class="font-semibold text-gray-900 dark:text-gray-100">
                                                                 {{ $application->user->name }}
@@ -103,7 +114,7 @@
                                                             @endif">
                                                             {{ ucfirst($application->status) }}
                                                         </span>
-                                                        <a href="{{ route('profile.show', $application->user->id) }}" 
+                                                        <a href="{{ route('profile.show', $application->user->id) }}"
                                                            class="text-blue-600 hover:text-blue-800 text-sm">
                                                             Voir profil
                                                         </a>
@@ -131,7 +142,7 @@
                         <h3 class="mt-2 text-lg font-medium">Aucune offre d'emploi</h3>
                         <p class="mt-1 text-gray-500 dark:text-gray-400">Commencez par créer votre première offre d'emploi</p>
                         <div class="mt-6">
-                            <a href="{{ route('job.create') }}" 
+                            <a href="{{ route('job.create') }}"
                                class="inline-flex items-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-md">
                                 Créer une offre
                             </a>

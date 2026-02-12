@@ -19,6 +19,14 @@
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
                     </x-nav-link>
+                    @if(Auth::user()->hasRole('recruteur'))
+                    <x-nav-link :href="route('job.my_offers')" :active="request()->routeIs('job.my_offers')">
+                        {{ __('Mes offres') }}
+                    </x-nav-link>
+                    <x-nav-link :href="route('job.create')" :active="request()->routeIs('job.create')">
+                        {{ __('Créer une offre') }}
+                    </x-nav-link>
+                    @endif
                     @endauth
                 </div>
             </div>
@@ -84,6 +92,14 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+            @if(Auth::user()->hasRole('recruteur'))
+            <x-responsive-nav-link :href="route('job.my_offers')" :active="request()->routeIs('job.my_offers')">
+                {{ __('Mes offres') }}
+            </x-responsive-nav-link>
+            <x-responsive-nav-link :href="route('job.create')" :active="request()->routeIs('job.create')">
+                {{ __('Créer une offre') }}
+            </x-responsive-nav-link>
+            @endif
             @endauth
         </div>
 

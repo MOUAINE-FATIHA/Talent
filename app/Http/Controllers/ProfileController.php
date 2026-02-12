@@ -9,65 +9,51 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
 
-class ProfileController extends Controller
-{
-    public function show($id)
-    {
-        $user = User::findOrFail($id);
-        return view('profile.show', compact('user'));
+class ProfileController extends Controller{
+    public function show($id){
+        $user= User::findOrFail($id);
+        return view('profile.show',compact('user'));
     }
-
-    // Edit profile page
-    public function edit(Request $request): View
-    {
+    public function edit(Request $request): View{
         return view('profile.edit', [
-            'user' => $request->user(),
+            'user'=> $request->user(),
         ]);
     }
 
 
 
-    public function update(Request $request)
-    {
+    public function update(Request $request){
         $request->validate([
-            'name' => 'required|string|max:255',
-            'bio' => 'nullable|string',
-            'specialite' => 'nullable|string|max:255',
-            'photo' => 'nullable|image|mimes:jpg,png,jpeg|max:2048'
+            'name'=> 'required|string|max:255',
+            'bio'=> 'nullable|string',
+            'specialite'=> 'nullable|string|max:255',
+            'photo'=> 'nullable|image|mimes:jpg,png,jpeg|max:2048'
         ]);
-
         $user = Auth::user();
 
 
-        if ($request->hasFile('photo')) {
-            $path = $request->file('photo')->store('profiles', 'public');
-            $user->photo = $path;
+        if ($request->hasFile('photo')){
+            $path= $request->file('photo')->store('profiles', 'public');
+            $user->photo =$path;
         }
-
-        // update fields
         $user->name = $request->name;
         $user->bio = $request->bio;
         $user->specialite = $request->specialite;
         $user->save();
-
         return Redirect::route('profile.edit')->with('success', 'Profil mis à jour');
     }
 
 
 
-    public function destroy(Request $request)
-    {
+    public function destroy(Request $request){
         $request->validateWithBag('userDeletion', [
             'password' => ['required', 'current_password'],
         ]);
-
-        $user = $request->user();
+        $user= $request->user();
         Auth::logout();
         $user->delete();
-
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-
         return Redirect::to('/');
     }
 }
